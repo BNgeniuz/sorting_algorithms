@@ -1,20 +1,6 @@
 #include "sort.h"
 
 /**
-*swap - swaps the positions of 2 int
-*@x: array element
-*@y: array element
-*/
-void swap(int *x, int *y)
-{
-        int pmt;
-
-        pmt = *x;
-        *x = *y;
-        *y = pmt;
-}
-
-/**
  * shell_sort -sort arrays in ascending order
  * @array: array to input
  * @size: size of the array
