@@ -53,14 +53,14 @@ int partition(int *array, int first, int last, size_t size)
  */
 void lomuto_qsort(int *array, int first, int last, size_t size)
 {
-        int m;
+	int m;
 
-        if (first < last)
-        {
-                m = partition(array, first, last, size);
-                lomuto_qsort(array, first, m - 1, size);
-                lomuto_qsort(array, m + 1, last, size);
-        }
+	if (first < last)
+	{
+	m = partition(array, first, last, size);
+	lomuto_qsort(array, first, m - 1, size);
+	lomuto_qsort(array, m + 1, last, size);
+	}
 }
 
 /**
@@ -71,5 +71,5 @@ void lomuto_qsort(int *array, int first, int last, size_t size)
  */
 void quick_sort(int *array, size_t size)
 {
-        lomuto_qsort(array, 0, size - 1, size);
+	lomuto_qsort(array, 0, size - 1, size);
 }
