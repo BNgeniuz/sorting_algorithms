@@ -26,7 +26,7 @@ void shell_sort(int *array, size_t size)
 			n = m;
 			while (n >= val && array[n - val] > pmt)
 			{
-				array[n] = array[n - pmt];
+				array[n] = array[n - val];
 				n -= val;
 			}
 			array[n] = pmt;
