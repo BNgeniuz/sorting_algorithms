@@ -66,6 +66,6 @@ void merge_sort(int *array, size_t size)
 		right[m - centre] = array[m];
 
 	merge_sort(left, centre);
-	merge_sort(right, size - mid);
+	merge_sort(right, size - centre);
 	merge(array, left, right, size);
 }
