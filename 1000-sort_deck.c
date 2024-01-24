@@ -8,108 +8,123 @@
  */
 int _strcmp(const char *str1, char *str2)
 {
-	size_t l = 0;
+	while (*str1 && *str2 && *str1 == *str2)
+	{
+		str1++;
+		str2++;
+	}
 
-	if (str1 == '\0')
+		if (str1 != str2)
+			return (*str1 - *str2);
 		return (0);
-	while (str1[l])
-	{
-		if (str1[l] != str2[l])
-			return (0);
-		l++;
-	}
-	if (str1[l] == '\0' && str2[l])
+}
+
+/**
+ * get_value - value of a card.
+ * @card: ptr to card
+ *
+ * Return: 0 (when the value is return)
+ */
+char get_value(deck_node_t *card)
+{
+	if (_strcmp(card->card->value, "Ace") == 0)
 		return (0);
-	return (1);
+	if (_strcmp(card->card->value, "1") == 0)
+		return (1);
+	if (_strcmp(card->card->value, "2") == 0)
+		return (2);
+	if (_strcmp(card->card->value, "3") == 0)
+		return (3);
+	if (_strcmp(card->card->value, "4") == 0)
+		return (4);
+	if (_strcmp(card->card->value, "5") == 0)
+		return (5);
+	if (_strcmp(card->card->value, "6") == 0)
+		return (6);
+	if (_strcmp(card->card->value, "7") == 0)
+		return (7);
+	if (_strcmp(card->card->value, "8") == 0)
+		return (8);
+	if (_strcmp(card->card->value, "9") == 0)
+		return (9);
+	if (_strcmp(card->card->value, "10") == 0)
+		return (10);
+	if (_strcmp(card->card->value, "Jack") == 0)
+		return (11);
+	if (_strcmp(card->card->value, "Queen") == 0)
+		return (12);
+	return (13);
 }
-/**
- * get_card_position - position based on card you slot in returnn
- * @node: card to reprsent
- * Return: 0 (success when return the card position)
- */
-int get_card_position(deck_node_t *node)
-{
-	int value;
 
-	value = (*node).card->value[0] - '0';
-	if (value < 50 || value > 57)
+/**
+ * insertion_sort_deck_kind - Sort spades to diamonds.
+ * @deck: card to input
+ */
+void insertion_sort_deck_kind(deck_node_t **deck)
+{
+	deck_node_t *idx, *index, *pmt;
+
+	for (idx = (*deck)->next; idx != NULL; idx = pmt)
 	{
-		if (_strcmp((*node).card->value, "Ace") == 1)
-			value = 1;
-		else if (_strcmp((*node).card->value, "10") == 1)
-			value = 10;
-		else if (_strcmp((*node).card->value, "Jack") == 1)
-			value = 11;
-		else if (_strcmp((*node).card->value, "Queen") == 1)
-			value = 12;
-		else if (_strcmp((*node).card->value, "King") == 1)
-			value = 13;
-	}
-	value += (*node).card->kind * 13;
-	return (value);
-}
-/**
- *swap_card - swap prev cards
- *@card: card to swap
- *@deck: card deck to swap
- *Return: (success) return ptr to a card which was enter it
- */
-deck_node_t *swap_card(deck_node_t *card, deck_node_t **deck)
-{
-	deck_node_t *back = card->prev, *current = card;
-	/*NULL, 19, 48, 9, 71, 13, NULL*/
-
-	back->next = current->next;
-	if (current->next)
-		current->next->prev = back;
-	current->next = back;
-	current->prev = back->prev;
-	back->prev = current;
-	if (current->prev)
-		current->prev->next = current;
-	else
-		*deck = current;
-	return (current);
-}
-
-/**
- * insertion_sort_deck - function that sorts a doubly linked deck
- * of integers in ascending order using the Insertion sort algorithm
- * @deck: Dobule linked deck to sort
- */
-void insertion_sort_deck(deck_node_t **deck)
-{
-	int value_prev, value_current;
-	deck_node_t *node;
-
-	if (deck == NULL || (*deck)->next == NULL)
-		return;
-	node = (*deck)->next;
-	while (node)
-	{
-		/* preparing the previous value */
-		if (node->prev)
+		pmt = idx->next;
+		index = idx->prev;
+		while (index != NULL && index->card->kind > idx->card->kind)
 		{
-			value_prev = get_card_position((node->prev));
-			value_current = get_card_position(node);
+			index->next = idx->next;
+			if (idx->next != NULL)
+				idx->next->prev = index;
+			idx->prev = index->prev;
+			idx->next = index;
+			if (index->prev != NULL)
+				index->prev->next = idx;
+			else
+				*deck = idx;
+			index->prev = idx;
+			index = idx->prev;
 		}
-		while ((node->prev) && (value_prev > value_current))
-		{
-			value_prev = get_card_position((node->prev));
-			value_current = get_card_position(node);
-			node = swap_card(node, deck);
-
-		}
-		node = node->next;
 	}
 }
+
 /**
- * sort_deck - sort a deck you put in using
- * insertion sort algorithm
+ * insertion_sort_deck_value - Sort spades to diamonds from ace to king.
+ * @deck: doubly-linked list.
+ */
+void insertion_sort_deck_value(deck_node_t **deck)
+{
+	deck_node_t *idx, *index, *pmt;
+
+	for (idx = (*deck)->next; idx != NULL; idx = pmt)
+	{
+		pmt = idx->next;
+		index = idx->prev;
+		while (index != NULL &&
+				index->card->kind == idx->card->kind &&
+				get_value(index) > get_value(idx))
+		{
+			index->next = idx->next;
+			if (idx->next != NULL)
+				idx->next->prev = index;
+			idx->prev = index->prev;
+			idx->next = index;
+			if (index->prev != NULL)
+				index->prev->next = idx;
+			else
+				*deck = idx;
+			index->prev = idx;
+			index = idx->prev;
+		}
+	}
+}
+
+/**
+ * sort_deck - sort a deck of card you in put
  * @deck: deck
  */
 void sort_deck(deck_node_t **deck)
 {
-	insertion_sort_deck(deck);
-}
+	if (deck == NULL || *deck == NULL || (*deck)->next == NULL)
+		return;
 
+	insertion_sort_deck_kind(deck);
+	insertion_sort_deck_value(deck);
+}
