@@ -3,50 +3,49 @@
 
 
 /**
- * merge -  Sort array using merge sort
- * @array: array if ints
- * @size: size of the array
- * @l: pointer to left array
- * @r: pointer to right array
+ * merge -  merge sort arrays
+ * @array: array to merge
+ * @size: size of merge array
+ * @lf: left array
+ * @rt: right array
  **/
-void merge(int *array, int *l, int *r, size_t size)
+void merge(int *array, int *lf, int *rt, size_t size)
 {
-	int i = 0, j = 0, k = 0;
+	int m = 0, n = 0, p = 0;
 	int size_left, size_right;
 
 	size_left = size / 2;
 	size_right = size - size_left;
 	printf("Merging...\n");
 	printf("[left]: ");
-	print_array(l, size_left);
+	print_array(lf, size_left);
 	printf("[right]: ");
-	print_array(r, size_right);
+	print_array(rt, size_right);
 
-	while (i < size_left && j < size_right)
+	while (m < size_left && n < size_right)
 	{
-		if (l[i] < r[j])
-			array[k++] = l[i++];
+		if (lf[m] < rt[n])
+			array[p++] = lf[m++];
 		else
-			array[k++] = r[j++];
+			array[p++] = rt[n++];
 	}
 
-	while (i < size_left)
-		array[k++] = l[i++];
+	while (m < size_left)
+		array[p++] = lf[m++];
 
-	while (j < size_right)
-		array[k++] = r[j++];
+	while (n < size_right)
+		array[p++] = rt[n++];
 	printf("[Done]: ");
 	print_array(array, size);
 }
 /**
- * merge_sort - sorts an array of integers in ascending order using
- * the Merge sort algorithm
- * @array: pointer to array
- * @size: size of the array
+ * merge_sort - array of integers in ascending order
+ * @array: input array
+ * @size: size of  array
  **/
 void merge_sort(int *array, size_t size)
 {
-	size_t mid = 0, i;
+	size_t centre = 0, m;
 	int left[1000];
 	int right[1000];
 
@@ -56,17 +55,17 @@ void merge_sort(int *array, size_t size)
 	if (size < 2)
 		return;
 
-	mid = size / 2;
+	centre = size / 2;
 	/*left = (int*)malloc(sizeof(int) * mid);*/
 	/*right = (int*)malloc(sizeof(int) * (size - mid));*/
 
-	for (i = 0; i < mid; i++)
-		left[i] = array[i];
+	for (m = 0; m < centre; m++)
+		left[m] = array[m];
 
-	for (i = mid; i < size; i++)
-		right[i - mid] = array[i];
+	for (m = centre; m < size; m++)
+		right[m - centre] = array[m];
 
-	merge_sort(left, mid);
+	merge_sort(left, centre);
 	merge_sort(right, size - mid);
 	merge(array, left, right, size);
 }
