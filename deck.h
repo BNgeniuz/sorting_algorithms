@@ -1,6 +1,8 @@
 #ifndef DECK_H
 #define DECK_H
 
+#include <stdlib.h>
+
 /**
  * enum kind_e - card kind
  * @SPADE: spade kind
@@ -44,4 +46,5 @@ typedef struct deck_node_s
 } deck_node_t;
 
 void sort_deck(deck_node_t **deck);
-#endif
+
+#endif /* DECK_H */
