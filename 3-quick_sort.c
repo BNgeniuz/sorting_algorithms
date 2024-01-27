@@ -58,6 +58,7 @@ void lomuto_qsort(int *array, int first, int last, size_t size)
 	if (first < last)
 	{
 	m = partition(array, first, last, size);
+	
 	lomuto_qsort(array, first, m - 1, size);
 	lomuto_qsort(array, m + 1, last, size);
 	}
