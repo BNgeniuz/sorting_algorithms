@@ -1,11 +1,12 @@
 #include "sort.h"
 
 /**
-*swap_ints - swaps the positions of 2 int
-*@x: array element
-*@y: array element
-Return: 0 (success)
-*/
+ * swap_ints - swaps the positions of 2 int
+ * @x: array element
+ * @y: array element
+ * Return: 0 (success)
+ */
+
 void swap_ints(int *x, int *y)
 {
 	int pmt;
@@ -16,30 +17,36 @@ void swap_ints(int *x, int *y)
 }
 
 /**
- * partition - pivotal array
+ * lomuto_partition - pivotal array
  * @array: array to input
  * @first: first integer
  * @last: last integer
  * @size: size of array
  * Return: interger for pivot
  */
-int partition(int *array, int first, int last, size_t size)
+int lomuto_partition(int *array, size_t size, int first, int last)
 {
-	int index = array[last];
-	int k = first - 1, m;
-
-	for (m = first; m <= last; m++)
+	int *index, k, m;
+	
+	index = array + last;
+	for (k = m = first; m < last; m++)
 	{
-		if (array[m] <= index)
+		if (array[m] < *index)
 		{
-			k++;
-			if (k != m)
+			if (k < m)
 			{
-				swap_ints(&array[k], &array[m]);
+				swap_ints(array + m, array + k);
 				print_array(array, size);
 			}
+			k++;
 		}
 	}
+	if (array[k] > *index)
+	{
+		swap_ints(array + k, index);
+		print_array(array, size);
+	}
+
 	return (k);
 }
 
@@ -51,16 +58,15 @@ int partition(int *array, int first, int last, size_t size)
  * @size: array size
  * Return: 0 (void)
  */
-void lomuto_qsort(int *array, int first, int last, size_t size)
+void lomuto_qsort(int *array, size_t size, int first, int last)
 {
 	int m;
 
-	if (first < last)
+	if (last - first > 0)
 	{
-	m = partition(array, first, last, size);
-	
-	lomuto_qsort(array, first, m - 1, size);
-	lomuto_qsort(array, m + 1, last, size);
+	m = lomuto_partition(array, size, first, last);
+	lomuto_qsort(array, size, first, m - 1);
+	lomuto_qsort(array, size, m + 1, last);
 	}
 }
 
@@ -75,5 +81,5 @@ void quick_sort(int *array, size_t size)
 	if (array == NULL || size < 2)
 		return;
 
-	lomuto_qsort(array, 0, size - 1, size);
+	lomuto_qsort(array, size, 0, size - 1);
 }
