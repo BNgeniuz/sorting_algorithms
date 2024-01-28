@@ -51,22 +51,22 @@ int lomuto_partition(int *array, size_t size, int first, int last)
 }
 
 /**
- * lomuto_qsort - lomuto sorting schemey
+ * lomuto_sort - lomuto sorting schemey
  * @array: Array to input
  * @first: first value of the array
  * @last: last value of the array
  * @size: array size
  * Return: 0 (void)
  */
-void lomuto_qsort(int *array, size_t size, int first, int last)
+void lomuto_sort(int *array, size_t size, int first, int last)
 {
 	int m;
 
 	if (last - first > 0)
 	{
 	m = lomuto_partition(array, size, first, last);
-	lomuto_qsort(array, size, first, m - 1);
-	lomuto_qsort(array, size, m + 1, last);
+	lomuto_sort(array, size, first, m - 1);
+	lomuto_sort(array, size, m + 1, last);
 	}
 }
 
@@ -81,5 +81,5 @@ void quick_sort(int *array, size_t size)
 	if (array == NULL || size < 2)
 		return;
 
-	lomuto_qsort(array, size, 0, size - 1);
+	lomuto_sort(array, size, 0, size - 1);
 }
