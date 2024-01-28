@@ -1,12 +1,12 @@
 #include "sort.h"
 
 /**
-*swap - swaps the positions of 2 int
+*swap_ints - swaps the positions of 2 int
 *@x: array element
 *@y: array element
 Return: 0 (success)
 */
-void swap(int *x, int *y)
+void swap_ints(int *x, int *y)
 {
 	int pmt;
 
@@ -35,7 +35,7 @@ int partition(int *array, int first, int last, size_t size)
 			k++;
 			if (k != m)
 			{
-				swap(&array[k], &array[m]);
+				swap_ints(&array[k], &array[m]);
 				print_array(array, size);
 			}
 		}
